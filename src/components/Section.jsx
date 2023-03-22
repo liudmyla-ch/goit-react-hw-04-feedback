@@ -12,28 +12,26 @@ const Section = ({
   total,
   positivePercentage,
   options,
-    onLeaveFeedback,
-  message,
-}) => {
-  return (
-    <div className={styles.section}>
-      <h1>{title}</h1>
-      <FeedbackOptions options={options} onLeaveFeedback={onLeaveFeedback} />
-      <div className={styles.statistics}>
-        {total >
-          0 ? (
-            <Statistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
-              total={total}
-              positivePercentage={positivePercentage}
-            />
-          ):(<Notification message="There is no feedback" />)}
-      </div>
+  onLeaveFeedback,
+}) => (
+  <div className={styles.section}>
+    <h1>{title}</h1>
+    <FeedbackOptions options={options} onLeaveFeedback={onLeaveFeedback} />
+    <div className={styles.statistics}>
+      {total > 0 ? (
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={total}
+          positivePercentage={positivePercentage}
+        />
+      ) : (
+        <Notification message="There is no feedback" />
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 Section.propTypes = {
   title: PropTypes.string.isRequired,

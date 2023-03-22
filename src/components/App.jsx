@@ -1,49 +1,53 @@
-import React from 'react';
+import { useState } from 'react';
 import Section from './Section';
 
+const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-class App extends React.Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+  const total = good + neutral + bad;
+  const options = ['good', 'neutral', 'bad'];
 
-  onClick = evt => {
+  const onClick = evt => {
     const { name } = evt.target;
-    this.setState(prevState => ({ [name]: prevState[name] + 1 }));
-  };
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return good + neutral + bad;
-  };
+    switch (name) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
 
-  countPositiveFeedbackPercentage = () => {
-    const { good } = this.state;
-    const total = this.countTotalFeedback();
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+
+      default:
+        return;
+    }
+  };
+  const countPositiveFeedbackPercentage = () => {
     if (total === 0) {
       return 0;
     }
     return Math.round((good / total) * 100);
   };
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    return (
-      <Section
-        title="Please leave feedback"
-        good={good}
-        neutral={neutral}
-        bad={bad}
-        total={this.countTotalFeedback()}
-        positivePercentage={this.countPositiveFeedbackPercentage()}
-        options={Object.keys(this.state)}
-        onLeaveFeedback={this.onClick}
-      />
-    );
-  }
-}
-
-
+  return (
+    <Section
+      title="Please leave feedback"
+      good={good}
+      neutral={neutral}
+      bad={bad}
+      total={total}
+      positivePercentage={countPositiveFeedbackPercentage()}
+      options={options}
+      onLeaveFeedback={onClick}
+    />
+  );
+};
 export default App;
+
